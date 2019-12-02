@@ -27,12 +27,12 @@ public class ApplicationConfig implements Serializable {
         return factoryBean;
     }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
-        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
-        lef.setDataSource(dataSource);
-        lef.setJpaVendorAdapter(jpaVendorAdapter);
-        lef.setPackagesToScan("com.deedee.fingertips.deestarwars.models");
-        return lef;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+//        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+//        lef.setDataSource(dataSource);
+//        lef.setJpaVendorAdapter(jpaVendorAdapter);
+//        lef.setPackagesToScan("com.deedee.fingertips.deestarwars.models");
+//        return lef;
+//    }
 }

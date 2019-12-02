@@ -2,10 +2,8 @@ package com.deedee.fingertips.deestarwars.services;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
 import com.deedee.fingertips.deestarwars.models.Comment_;
-import com.deedee.fingertips.deestarwars.repositories.CommentExtraRepo;
 import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -20,13 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-public class CommentService implements CommentRepo, CommentExtraRepo {
+@Service
+public class CommentService {
 
     @Autowired
-    private EntityManager entityManager;
+    public EntityManager entityManager;
 
-    @Override
+    @Autowired
+    public CommentRepo commentRepo;
+
     public Iterable<Comment> find(int movie_id, String ip_address)
     {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -60,64 +60,53 @@ public class CommentService implements CommentRepo, CommentExtraRepo {
 
     }
 
-    @Override
     public <S extends Comment> S save(S comment)
     {
         comment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
-        save(comment);
+        commentRepo.save(comment);
         return comment;
     }
 
-    @Override
     public <S extends Comment> Iterable<S> saveAll(Iterable<S> allComments) {
         Timestamp currentTimestamp =Timestamp.valueOf(LocalDateTime.now());
         allComments.forEach(comment -> comment.setCreatedDateUtc(currentTimestamp));
-        saveAll(allComments);
+        commentRepo.saveAll(allComments);
         return allComments;
     }
 
-    @Override
     public Optional<Comment> findById(Integer commentId) {
-        Optional<Comment> comment = findById(commentId);
+        Optional<Comment> comment = commentRepo.findById(commentId);
         return comment;
     }
 
-    @Override
     public boolean existsById(Integer commentId) {
-        return existsById(commentId);
+        return commentRepo.existsById(commentId);
     }
 
-    @Override
     public Iterable<Comment> findAll() {
-        return findAll();
+        return commentRepo.findAll();
     }
 
-    @Override
     public Iterable<Comment> findAllById(Iterable<Integer> iterable) {
-        return findAllById(iterable);
+        return commentRepo.findAllById(iterable);
     }
 
-    @Override
     public long count() {
-        return count();
+        return commentRepo.count();
     }
 
-    @Override
     public void deleteById(Integer commentIdToDelete) {
-        deleteById(commentIdToDelete);
+        commentRepo.deleteById(commentIdToDelete);
     }
 
-    @Override
     public void delete(Comment commentToDelete) {
-        delete(commentToDelete);
+        commentRepo.delete(commentToDelete);
     }
 
-    @Override
     public void deleteAll(Iterable<? extends Comment> commentsToDelete) {
-        deleteAll(commentsToDelete);
+        commentRepo.deleteAll(commentsToDelete);
     }
 
-    @Override
     public void deleteAll() {
 
     }

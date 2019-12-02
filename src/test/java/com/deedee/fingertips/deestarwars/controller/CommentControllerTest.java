@@ -1,21 +1,17 @@
 package com.deedee.fingertips.deestarwars.controller;
 
 import com.deedee.fingertips.deestarwars.controllers.CommentController;
-import com.deedee.fingertips.deestarwars.models.Comment;
-import com.deedee.fingertips.deestarwars.services.CommentService;
+import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -23,21 +19,21 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.mockito.Mockito.when;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@EnableJpaRepositories("com.deedee.fingerprints.deestarwars.repositories")
+@ComponentScan("om.deedee.fingerprints.deestarwars")
+@EntityScan(basePackages = {"om.deedee.fingerprints.deestarwars.models"})
 public class CommentControllerTest {
 
     private MockMvc mockMvc;
 
+    @Autowired
+    CommentController commentController;
+
     @Before
     public void start() {
-        mockMvc = MockMvcBuilders.standaloneSetup(CommentController.class).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
     }
 
 //    @Test

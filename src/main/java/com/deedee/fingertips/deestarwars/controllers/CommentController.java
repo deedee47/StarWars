@@ -1,7 +1,6 @@
 package com.deedee.fingertips.deestarwars.controllers;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
-import com.deedee.fingertips.deestarwars.repositories.CommentExtraRepo;
 import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
 import com.deedee.fingertips.deestarwars.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.Optional;
 public class CommentController {
 
     @Autowired
-    public CommentService commentService;
+    CommentService commentService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
