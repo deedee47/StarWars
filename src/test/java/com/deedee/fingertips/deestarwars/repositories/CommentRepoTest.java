@@ -3,12 +3,14 @@ package com.deedee.fingertips.deestarwars.repositories;
 
 import com.deedee.fingertips.deestarwars.SuitePrep;
 import com.deedee.fingertips.deestarwars.models.Comment;
+import org.assertj.core.util.IterableUtil;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +30,32 @@ import static org.junit.Assert.*;
 public class CommentRepoTest extends SuitePrep {
 
     private List<Comment> testComments = new ArrayList<>();
+
+    @Test
+    public void testFindById() throws Exception
+    {
+        Optional<Comment> comment = commentRepo.findById(testCommentId);
+        assertNotNull(comment);
+        assertEquals(comment.get().getMovieId(), 1);
+    }
+    @Test
+    public void testFindAll()
+    {
+        Iterable<Comment> allComments = commentRepo.findAll();
+        assertNotNull(allComments);
+    }
+
+    @Test
+    public void testExistsById()
+    {
+        assertTrue(commentRepo.existsById(testCommentId));
+    }
+
+    @Test
+    public void testCount()
+    {
+        assertTrue(commentRepo.count() > 0);
+    }
 
     @Test
     public void testSaveAll()
@@ -47,20 +76,11 @@ public class CommentRepoTest extends SuitePrep {
     }
 
     @Test
-    public void testFindById() throws Exception
+    public void testDeleteAll() throws Exception
     {
-        Optional<Comment> comment = commentRepo.findById(testCommentId);
-        assertNotNull(comment);
-        assertEquals(comment.get().getMovieId(), 1);
+        commentRepo.deleteAll(testComments);
+        Iterable<Comment> comment = commentRepo.findAllById(testComments.stream().map(Comment::getId).collect(Collectors.toList()));
+        assertTrue(IterableUtil.sizeOf(comment) == 0);
     }
-    @Test
-    public void testFindAll()
-    {
-        Iterable<Comment> allComments = commentRepo.findAll();
-        assertNotNull(allComments);
-    }
-
-    @Test
-    public void testDelete
 
 }
