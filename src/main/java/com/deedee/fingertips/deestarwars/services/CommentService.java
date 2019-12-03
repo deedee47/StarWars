@@ -60,14 +60,14 @@ public class CommentService {
 
     }
 
-    public <S extends Comment> S save(S comment)
+    public Comment save(Comment comment)
     {
         comment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
         commentRepo.save(comment);
         return comment;
     }
 
-    public <S extends Comment> Iterable<S> saveAll(Iterable<S> allComments) {
+    public Iterable<Comment> saveAll(Iterable<Comment> allComments) {
         Timestamp currentTimestamp =Timestamp.valueOf(LocalDateTime.now());
         allComments.forEach(comment -> comment.setCreatedDateUtc(currentTimestamp));
         commentRepo.saveAll(allComments);

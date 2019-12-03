@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class CommentServiceTest extends SuitePrep {
 
     @Autowired
-    private CommentService commentService;
+    public CommentService commentService;
 
     @Test
     public void testFindByMovieId()

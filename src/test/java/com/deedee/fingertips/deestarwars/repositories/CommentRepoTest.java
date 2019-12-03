@@ -4,18 +4,11 @@ package com.deedee.fingertips.deestarwars.repositories;
 import com.deedee.fingertips.deestarwars.SuitePrep;
 import com.deedee.fingertips.deestarwars.models.Comment;
 import org.assertj.core.util.IterableUtil;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

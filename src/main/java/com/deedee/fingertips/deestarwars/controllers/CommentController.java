@@ -43,7 +43,13 @@ public class CommentController {
     public Comment getComments(@PathVariable("commentId") int commentId) //throws Exception
     {
         Optional<Comment> result = commentService.findById(commentId);
-        return result.get();
-
+        if(result.isPresent())
+        {
+            return result.get();
+        }
+        else
+        {
+            return null;
+        }
     }
 }
