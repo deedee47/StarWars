@@ -10,9 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,10 +46,17 @@ public class CommentControllerTest {
                                      .andReturn();
         Assert.assertNotNull(mvcResult.getResponse().getContentAsString());
     }
-//    @Test
-//    public void testFindController()
-//    {
-//
-//    }
+    @Test
+    public void testFindController() throws Exception
+    {
+        String url = "/api/v1/comment/find";
+        ResultActions mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders.get(url)
+                    .param("movieId", "2")
+                    .param("ipAddress", "172.22.22.22"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print());
+        Assert.assertNotNull(mvcResult.andReturn().getResponse().getContentAsString());
+    }
 
 }
