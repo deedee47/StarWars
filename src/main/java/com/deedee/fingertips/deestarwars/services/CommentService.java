@@ -3,7 +3,10 @@ package com.deedee.fingertips.deestarwars.services;
 import com.deedee.fingertips.deestarwars.models.Comment;
 import com.deedee.fingertips.deestarwars.models.Comment_;
 import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
+import com.deedee.fingertips.deestarwars.repositories.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -12,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,14 +23,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CommentService {
-
+public class CommentService implements Serializable, ICommentService {
     @Autowired
     public EntityManager entityManager;
 
     @Autowired
     public CommentRepo commentRepo;
 
+    public CommentService()
+    {}
+
+    @Override
     public Iterable<Comment> find(int movie_id, String ip_address)
     {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -60,6 +67,7 @@ public class CommentService {
 
     }
 
+    @Override
     public Comment save(Comment comment)
     {
         comment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
@@ -67,19 +75,21 @@ public class CommentService {
         return comment;
     }
 
-    public Iterable<Comment> saveAll(Iterable<Comment> allComments) {
+    @Override
+    public  Iterable<Comment> saveAll(Iterable<Comment> entities) {
         Timestamp currentTimestamp =Timestamp.valueOf(LocalDateTime.now());
-        allComments.forEach(comment -> comment.setCreatedDateUtc(currentTimestamp));
-        commentRepo.saveAll(allComments);
-        return allComments;
+        entities.forEach(comment -> comment.setCreatedDateUtc(currentTimestamp));
+        commentRepo.saveAll(entities);
+        return entities;
     }
 
-    public Optional<Comment> findById(Integer commentId) {
-        Optional<Comment> comment = commentRepo.findById(commentId);
+    @Override
+    public Optional<Comment> findById(Long integer) {
+        Optional<Comment> comment = commentRepo.findById(integer);
         return comment;
     }
 
-    public boolean existsById(Integer commentId) {
+    public boolean existsById(Long commentId) {
         return commentRepo.existsById(commentId);
     }
 
@@ -87,7 +97,7 @@ public class CommentService {
         return commentRepo.findAll();
     }
 
-    public Iterable<Comment> findAllById(Iterable<Integer> iterable) {
+    public Iterable<Comment> findAllById(Iterable<Long> iterable) {
         return commentRepo.findAllById(iterable);
     }
 
@@ -95,7 +105,18 @@ public class CommentService {
         return commentRepo.count();
     }
 
-    public void deleteById(Integer commentIdToDelete) {
+    public long countById(int movie_id)
+    {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Comment> allComments = criteriaQuery.from(Comment.class);
+        criteriaQuery.select(criteriaBuilder.count(allComments));
+        criteriaQuery.where(criteriaBuilder.equal(allComments.get(Comment_.MOVIE_ID), movie_id));
+        return entityManager.createQuery(criteriaQuery).getSingleResult();
+    }
+
+    public void deleteById(Long commentIdToDelete) {
+        if(commentRepo.existsById(commentIdToDelete))
         commentRepo.deleteById(commentIdToDelete);
     }
 
@@ -103,10 +124,11 @@ public class CommentService {
         commentRepo.delete(commentToDelete);
     }
 
-    public void deleteAll(Iterable<? extends Comment> commentsToDelete) {
+    public void deleteAll(Iterable<Comment> commentsToDelete) {
         commentRepo.deleteAll(commentsToDelete);
     }
 
+    @Override
     public void deleteAll() {
 
     }

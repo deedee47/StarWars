@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@ComponentScan("com.deedee.fingertips.deestarwars")
+//@ComponentScan("com.deedee.fingertips.deestarwars")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class DeestarwarsApplicationTests {

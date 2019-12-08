@@ -16,7 +16,7 @@ public class Comment implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "movie_id")
     private int movieId;
@@ -39,8 +39,6 @@ public class Comment implements Serializable
         this.ipAddress = ip_address;
     }
 
-
-
     public int getMovieId() {
         return movieId;
     }
@@ -49,10 +47,10 @@ public class Comment implements Serializable
         this.movieId = movieId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getDescription() {
@@ -77,10 +75,5 @@ public class Comment implements Serializable
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Comment { MovieId = %s, Description = %s, CreatedDate = %s, IPAddress = %s} ", movieId, description, createdDateUtc, ipAddress);
     }
 }

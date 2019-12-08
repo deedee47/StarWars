@@ -2,6 +2,7 @@ package com.deedee.fingertips.deestarwars.controllers;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
 import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
+import com.deedee.fingertips.deestarwars.repositories.ICommentService;
 import com.deedee.fingertips.deestarwars.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class CommentController {
 
     @Autowired
-    CommentService commentService;
+    public ICommentService commentService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -31,7 +32,8 @@ public class CommentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Comment> findComments(@RequestParam(value="movieId", defaultValue="0") String movieId , @RequestParam(value="ipAddress", defaultValue="") String ipAddress)
+    public List<Comment> findComments(@RequestParam(value="movieId", defaultValue="0", required = false) String movieId ,
+                                      @RequestParam(value="ipAddress", defaultValue="", required = false) String ipAddress)
     {
         int movie_id = Integer.parseInt(movieId);
         Iterable<Comment> result = commentService.find(movie_id, ipAddress);
@@ -40,16 +42,17 @@ public class CommentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/get/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Comment getComments(@PathVariable("commentId") int commentId) //throws Exception
+    public Comment getComments(@PathVariable("commentId") Long commentId) //throws Exception
     {
         Optional<Comment> result = commentService.findById(commentId);
-        if(result.isPresent())
-        {
-            return result.get();
-        }
-        else
-        {
-            return null;
-        }
+        return (result.isPresent()) ? result.get() : new Comment();
+    }
+
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void deleteComments(@PathVariable("commentId") Long commentId) //throws Exception
+    {
+        commentService.deleteById(commentId);
     }
 }
