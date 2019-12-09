@@ -26,9 +26,9 @@ public class FilmController
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/find/{filmId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/find", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Film findFilmWithCharacters(@PathVariable("filmId") int filmId, @RequestBody PeopleQueryParams peopleQueryParams) throws Exception
+    public Film findFilmWithCharacters(@RequestParam("filmId") int filmId, @RequestBody PeopleQueryParams peopleQueryParams) throws Exception
     {
         Film result = filmService.getCharacterListForFilm(filmId, peopleQueryParams);
         return result;

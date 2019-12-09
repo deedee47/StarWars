@@ -21,7 +21,7 @@ public class Comment implements Serializable
     @Column(name = "movie_id")
     private int movieId;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String  description;
 
     @Column(name = "created_date_utc")
