@@ -4,20 +4,23 @@ import java.util.List;
 
 public class Film {
     private String title;
-    private int episode_id;
     private String opening_crawl;
-    private String director;
-    private String producer;
-    private String release_date;
-    private List<String> characters;
-    private List<String> planets;
-    private List<String> starships;
-    private List<String> vehicles;
-    private List<String> species;
     private String created;
     private String edited;
-    private String url;
     private Long comment_count;
+    private String total_height_in_cm;
+    private String total_height_in_feet;
+    private int people_count;
+    private List<People> people;
+    private List<String> characters;
+
+    public int getPeople_count() {
+        return people_count;
+    }
+
+    public void setPeople_count(int people_count) {
+        this.people_count = people_count;
+    }
 
     public String getTitle() {
         return title;
@@ -27,84 +30,12 @@ public class Film {
         this.title = title;
     }
 
-    public float getEpisode_id() {
-        return episode_id;
-    }
-
-    public void setEpisode_id(int episode_id) {
-        this.episode_id = episode_id;
-    }
-
     public String getOpening_crawl() {
         return opening_crawl;
     }
 
     public void setOpening_crawl(String opening_crawl) {
         this.opening_crawl = opening_crawl;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public String getProducer() {
-        return producer;
-    }
-
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
-
-    public String getRelease_date() {
-        return release_date;
-    }
-
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
-    }
-
-    public List<String> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<String> characters) {
-        this.characters = characters;
-    }
-
-    public List<String> getPlanets() {
-        return planets;
-    }
-
-    public void setPlanets(List<String> planets) {
-        this.planets = planets;
-    }
-
-    public List<String> getStarships() {
-        return starships;
-    }
-
-    public void setStarships(List<String> starships) {
-        this.starships = starships;
-    }
-
-    public List<String> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(List<String> vehicles) {
-        this.vehicles = vehicles;
-    }
-
-    public List<String> getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(List<String> species) {
-        this.species = species;
     }
 
     public String getCreated() {
@@ -123,19 +54,43 @@ public class Film {
         this.edited = edited;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public Long getComment_count() {
         return comment_count;
     }
 
     public void setComment_count(Long comment_count) {
         this.comment_count = comment_count;
+    }
+
+    public String getTotal_height_in_cm() {
+        return total_height_in_cm;
+    }
+
+    public void setTotal_height_in_cm(String total_height_in_cm) {
+        this.total_height_in_cm = total_height_in_cm;
+    }
+
+    public String getTotal_height_in_feet() {
+        return total_height_in_feet;
+    }
+
+    public void setTotal_height_in_feet(String total_height_in_feet) {
+        this.total_height_in_feet = total_height_in_feet;
+    }
+
+    public List<String> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<String> characters) {
+        this.characters = characters;
+    }
+
+    public List<People> getPeople() {
+        return people;
+    }
+
+    public void setPeople(List<People> people) {
+        this.people = people;
     }
 }

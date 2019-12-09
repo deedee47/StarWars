@@ -1,7 +1,9 @@
 package com.deedee.fingertips.deestarwars.controller;
 
 import com.deedee.fingertips.deestarwars.controllers.FilmController;
+import com.deedee.fingertips.deestarwars.models.PeopleQueryParams;
 import com.deedee.fingertips.deestarwars.services.FilmService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,5 +41,24 @@ public class FilmControllerTest
                 .andReturn();
         Assert.assertNotNull(mvcResult.getResponse().getContentAsString());
     }
+
+//    @Test
+//    public void testFindFilmWithCharacters() throws Exception
+//    {
+//        String url = "/api/v1/film/find/2";
+//        Map peopleQueryParams = new Object();
+//        peopleQueryParams.name("VALUE");
+//        MvcResult mvcResult = mockMvc
+//                .perform(MockMvcRequestBuilders.get(url)
+//                        .contentType("application/json")
+//                        .content()
+//                        .param("sort_type", "ASC")
+//                        .param("gender_filter", "FEMALE")
+//                        .param("sort_parameters", "HEIGHT"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andReturn();
+//        Assert.assertNotNull(mvcResult.getResponse().getContentAsString());
+//
+//    }
 
 }
