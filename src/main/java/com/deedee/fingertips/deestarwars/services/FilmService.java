@@ -5,8 +5,8 @@ import com.deedee.fingertips.deestarwars.models.Film;
 import com.deedee.fingertips.deestarwars.models.ParamEnums;
 import com.deedee.fingertips.deestarwars.models.People;
 import com.deedee.fingertips.deestarwars.models.PeopleQueryParams;
-import com.deedee.fingertips.deestarwars.repositories.ICommentService;
-import com.deedee.fingertips.deestarwars.repositories.IFilmService;
+import com.deedee.fingertips.deestarwars.interfaces.ICommentService;
+import com.deedee.fingertips.deestarwars.interfaces.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,9 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +49,7 @@ public class FilmService implements IFilmService {
         if(film != null)
         {
             long commentcount = commentService.countById(filmId);
-            film.setComment_count(commentcount);
+            film.setCommentCount(commentcount);
             //System.out.println("count="+commentcount);
         }
 
@@ -74,7 +72,7 @@ public class FilmService implements IFilmService {
         {
             //add comment count;
             long commentcount = commentService.countById(filmId);
-            film.setComment_count(commentcount);
+            film.setCommentCount(commentcount);
             //System.out.println("count="+commentcount);
 
             //get people details
@@ -84,18 +82,18 @@ public class FilmService implements IFilmService {
             {
                 List<People> people = peopleUrlList.stream()
                                                     .map(this::getPeopleDetails)
-                                                    .filter(person -> person.getGender().toLowerCase().equals(peopleQueryParams.gender_filter.toString().toLowerCase()))
+                                                    .filter(person -> person.getGender().toLowerCase().equals(peopleQueryParams.genderFilter.toString().toLowerCase()))
                                                     .sorted((itemA, itemB) ->
                                                     {
-                                                            if(peopleQueryParams.sort_parameters.toString().toLowerCase().equals(ParamEnums.SortParams.GENDER.toString().toLowerCase()))
+                                                            if(peopleQueryParams.sortParameters.toString().toLowerCase().equals(ParamEnums.SortParams.GENDER.toString().toLowerCase()))
                                                             {
                                                                return itemA.getGender().compareTo(itemB.getGender());
                                                             }
-                                                            else if(peopleQueryParams.sort_parameters.toString().toLowerCase().equals(ParamEnums.SortParams.HEIGHT.toString().toLowerCase()))
+                                                            else if(peopleQueryParams.sortParameters.toString().toLowerCase().equals(ParamEnums.SortParams.HEIGHT.toString().toLowerCase()))
                                                             {
                                                                 return itemA.getHeight().compareTo(itemB.getHeight());
                                                             }
-                                                            else if(peopleQueryParams.sort_parameters.toString().toLowerCase().equals(ParamEnums.SortParams.NAME.toString().toLowerCase()))
+                                                            else if(peopleQueryParams.sortParameters.toString().toLowerCase().equals(ParamEnums.SortParams.NAME.toString().toLowerCase()))
                                                             {
                                                                 return itemA.getName().compareTo(itemB.getName());
                                                             }
@@ -107,9 +105,9 @@ public class FilmService implements IFilmService {
 
                 Long height = people.stream().mapToLong(item ->  Long.parseLong(item.getHeight())).sum();
 
-                film.setTotal_height_in_cm(height+"cm");
-                film.setTotal_height_in_feet(cmToFeet(height));
-                film.setPeople_count(people.size());
+                film.setTotalHeightInCm(height+"cm");
+                film.setTotalHeightInFeet(cmToFeet(height));
+                film.setPeopleCount(people.size());
             }
         }
 

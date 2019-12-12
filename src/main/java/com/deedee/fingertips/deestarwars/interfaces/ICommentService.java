@@ -1,4 +1,4 @@
-package com.deedee.fingertips.deestarwars.repositories;
+package com.deedee.fingertips.deestarwars.interfaces;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
 import org.springframework.stereotype.Component;

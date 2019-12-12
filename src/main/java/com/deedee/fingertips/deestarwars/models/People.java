@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class People implements Serializable
 {
     private String gender;
-    private String hair_color;
+    private String hairColor;
     private String height;
     private String mass;
     private String name;
-    private String skin_color;
+    private String skinColor;
     private String created;
     private String edited;
 
@@ -21,12 +21,12 @@ public class People implements Serializable
         this.gender = gender;
     }
 
-    public String getHair_color() {
-        return hair_color;
+    public String getHairColor() {
+        return hairColor;
     }
 
-    public void setHair_color(String hair_color) {
-        this.hair_color = hair_color;
+    public void setHairColor(String hairColor) {
+        this.hairColor = hairColor;
     }
 
     public String getHeight() {
@@ -53,12 +53,12 @@ public class People implements Serializable
         this.name = name;
     }
 
-    public String getSkin_color() {
-        return skin_color;
+    public String getSkinColor() {
+        return skinColor;
     }
 
-    public void setSkin_color(String skin_color) {
-        this.skin_color = skin_color;
+    public void setSkinColor(String skinColor) {
+        this.skinColor = skinColor;
     }
 
     public String getCreated() {

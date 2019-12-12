@@ -1,9 +1,7 @@
 package com.deedee.fingertips.deestarwars.controllers;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
-import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
-import com.deedee.fingertips.deestarwars.repositories.ICommentService;
-import com.deedee.fingertips.deestarwars.services.CommentService;
+import com.deedee.fingertips.deestarwars.interfaces.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -48,11 +46,4 @@ public class CommentController {
         return (result.isPresent()) ? result.get() : new Comment();
     }
 
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public void deleteComments(@PathVariable("commentId") Long commentId) //throws Exception
-    {
-        commentService.deleteById(commentId);
-    }
 }

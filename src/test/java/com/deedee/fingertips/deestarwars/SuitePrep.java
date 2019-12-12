@@ -31,7 +31,6 @@ public class SuitePrep {
         Comment testComment = new Comment(movieId , "Great Movie", testIp);
         assertNull(testComment.getId());
 
-       // testComment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
         commentService.save(testComment);
         testCommentId = testComment.getId();
         assertNotNull(testCommentId);

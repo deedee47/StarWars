@@ -4,22 +4,22 @@ import java.util.List;
 
 public class Film {
     private String title;
-    private String opening_crawl;
+    private String openingCrawl;
     private String created;
     private String edited;
-    private Long comment_count;
-    private String total_height_in_cm;
-    private String total_height_in_feet;
-    private int people_count;
+    private Long commentCount;
+    private String totalHeightInCm;
+    private String totalHeightInFeet;
+    private int peopleCount;
     private List<People> people;
     private List<String> characters;
 
-    public int getPeople_count() {
-        return people_count;
+    public int getPeopleCount() {
+        return peopleCount;
     }
 
-    public void setPeople_count(int people_count) {
-        this.people_count = people_count;
+    public void setPeopleCount(int peopleCount) {
+        this.peopleCount = peopleCount;
     }
 
     public String getTitle() {
@@ -30,12 +30,12 @@ public class Film {
         this.title = title;
     }
 
-    public String getOpening_crawl() {
-        return opening_crawl;
+    public String getOpeningCrawl() {
+        return openingCrawl;
     }
 
-    public void setOpening_crawl(String opening_crawl) {
-        this.opening_crawl = opening_crawl;
+    public void setOpeningCrawl(String openingCrawl) {
+        this.openingCrawl = openingCrawl;
     }
 
     public String getCreated() {
@@ -54,28 +54,28 @@ public class Film {
         this.edited = edited;
     }
 
-    public Long getComment_count() {
-        return comment_count;
+    public Long getCommentCount() {
+        return commentCount;
     }
 
-    public void setComment_count(Long comment_count) {
-        this.comment_count = comment_count;
+    public void setCommentCount(Long commentCount) {
+        this.commentCount = commentCount;
     }
 
-    public String getTotal_height_in_cm() {
-        return total_height_in_cm;
+    public String getTotalHeightInCm() {
+        return totalHeightInCm;
     }
 
-    public void setTotal_height_in_cm(String total_height_in_cm) {
-        this.total_height_in_cm = total_height_in_cm;
+    public void setTotalHeightInCm(String totalHeightInCm) {
+        this.totalHeightInCm = totalHeightInCm;
     }
 
-    public String getTotal_height_in_feet() {
-        return total_height_in_feet;
+    public String getTotalHeightInFeet() {
+        return totalHeightInFeet;
     }
 
-    public void setTotal_height_in_feet(String total_height_in_feet) {
-        this.total_height_in_feet = total_height_in_feet;
+    public void setTotalHeightInFeet(String totalHeightInFeet) {
+        this.totalHeightInFeet = totalHeightInFeet;
     }
 
     public List<String> getCharacters() {

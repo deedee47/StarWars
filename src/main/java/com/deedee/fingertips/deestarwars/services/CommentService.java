@@ -3,10 +3,8 @@ package com.deedee.fingertips.deestarwars.services;
 import com.deedee.fingertips.deestarwars.models.Comment;
 import com.deedee.fingertips.deestarwars.models.Comment_;
 import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
-import com.deedee.fingertips.deestarwars.repositories.ICommentService;
+import com.deedee.fingertips.deestarwars.interfaces.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;

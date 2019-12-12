@@ -1,4 +1,4 @@
-package com.deedee.fingertips.deestarwars.repositories;
+package com.deedee.fingertips.deestarwars.interfaces;
 
 import com.deedee.fingertips.deestarwars.models.Film;
 import com.deedee.fingertips.deestarwars.models.PeopleQueryParams;
