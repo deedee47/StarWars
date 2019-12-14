@@ -2,9 +2,9 @@ package com.deedee.fingertips.deestarwars.models;
 
 import java.util.List;
 
-public class Film {
+public class Movie {
     private String title;
-    private String openingCrawl;
+    private String opening_crawl;
     private String created;
     private String edited;
     private Long commentCount;
@@ -30,13 +30,21 @@ public class Film {
         this.title = title;
     }
 
-    public String getOpeningCrawl() {
-        return openingCrawl;
+    public String getOpening_crawl() {
+        return opening_crawl;
     }
 
-    public void setOpeningCrawl(String openingCrawl) {
-        this.openingCrawl = openingCrawl;
+    public void setOpening_crawl(String opening_crawl) {
+        this.opening_crawl = opening_crawl;
     }
+//not working
+//    public String getOpeningCrawl() {
+//        return opening_crawl;
+//    }
+//
+//    public void setOpeningCrawl(String opening_crawl) {
+//        this.opening_crawl = opening_crawl;
+//    }
 
     public String getCreated() {
         return created;

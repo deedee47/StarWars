@@ -5,13 +5,29 @@ import java.io.Serializable;
 public class People implements Serializable
 {
     private String gender;
-    private String hairColor;
+    private String hair_color;
     private String height;
     private String mass;
     private String name;
-    private String skinColor;
+    private String skin_color;
     private String created;
     private String edited;
+
+    public String getHair_color() {
+        return hair_color;
+    }
+
+    public void setHair_color(String hair_color) {
+        this.hair_color = hair_color;
+    }
+
+    public String getSkin_color() {
+        return skin_color;
+    }
+
+    public void setSkin_color(String skin_color) {
+        this.skin_color = skin_color;
+    }
 
     public String getGender() {
         return gender;
@@ -21,13 +37,13 @@ public class People implements Serializable
         this.gender = gender;
     }
 
-    public String getHairColor() {
-        return hairColor;
-    }
-
-    public void setHairColor(String hairColor) {
-        this.hairColor = hairColor;
-    }
+//    public String getHairColor() {
+//        return hair_color;
+//    }
+//
+//    public void setHairColor(String hairColor) {
+//        this.hair_color = hairColor;
+//    }
 
     public String getHeight() {
         return height;
@@ -53,13 +69,14 @@ public class People implements Serializable
         this.name = name;
     }
 
-    public String getSkinColor() {
-        return skinColor;
-    }
-
-    public void setSkinColor(String skinColor) {
-        this.skinColor = skinColor;
-    }
+    //not working
+//    public String getSkinColor() {
+//        return skin_color;
+//    }
+//
+//    public void setSkinColor(String skin_color) {
+//        this.skin_color = skin_color;
+//    }
 
     public String getCreated() {
         return created;

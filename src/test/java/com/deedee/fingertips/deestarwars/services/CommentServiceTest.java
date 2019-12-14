@@ -5,7 +5,6 @@ import com.deedee.fingertips.deestarwars.models.Comment;
 import org.assertj.core.util.IterableUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,9 +25,9 @@ public class CommentServiceTest extends SuitePrep {
     @Test
     public void testFindById() throws Exception
     {
-        Optional<Comment> comment = commentService.findById(testCommentId);
+        Comment comment = commentService.findById(testCommentId);
         assertNotNull(comment);
-        assertEquals(comment.get().getMovieId(), 1);
+        assertEquals(comment.getMovieId(), 1);
     }
     @Test
     public void testFindAll()
@@ -59,8 +58,8 @@ public class CommentServiceTest extends SuitePrep {
     public void testSaveAll()
     {
         Timestamp timeCreated = Timestamp.valueOf(LocalDateTime.now());
-        Comment testComment = new Comment(movieId , "Great Movie", testIp);
-        Comment testComment1 = new Comment(movieId+1 , "Great Movie", testIp);
+        Comment testComment = new Comment(movieId , "Great Movie");
+        Comment testComment1 = new Comment(movieId+1 , "Great Movie");
 
         testComment.setCreatedDateUtc(timeCreated);
         testComment1.setCreatedDateUtc(timeCreated);
@@ -84,23 +83,14 @@ public class CommentServiceTest extends SuitePrep {
     @Test
     public void testFindByMovieId()
     {
-        Iterable<Comment> commentResult = commentService.find(movieId, "");
+        Iterable<Comment> commentResult = commentService.getCommentsByMovieId(movieId);
         assertTrue(IterableUtil.sizeOf(commentResult) > 0);
     }
 
     @Test
     public void testFindNone()
     {
-        Iterable<Comment> noCommentResult = commentService.find(0, "");
+        Iterable<Comment> noCommentResult = commentService.getCommentsByMovieId(0);
         assertTrue(IterableUtil.sizeOf(noCommentResult) == 0);
     }
-
-    @Test
-    public void testFindByIpAddress()
-    {
-        Iterable<Comment> commentResult = commentService.find(0, testIp);
-        assertTrue(IterableUtil.sizeOf(commentResult) > 0);
-    }
-
-
 }

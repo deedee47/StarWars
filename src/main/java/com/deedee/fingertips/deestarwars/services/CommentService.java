@@ -4,7 +4,11 @@ import com.deedee.fingertips.deestarwars.models.Comment;
 import com.deedee.fingertips.deestarwars.models.Comment_;
 import com.deedee.fingertips.deestarwars.repositories.CommentRepo;
 import com.deedee.fingertips.deestarwars.interfaces.ICommentService;
+import com.deedee.fingertips.deestarwars.utilities.IpAddressResolution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -23,16 +27,20 @@ import java.util.Optional;
 @Service
 public class CommentService implements Serializable, ICommentService {
     @Autowired
-    public EntityManager entityManager;
+    EntityManager entityManager;
 
     @Autowired
-    public CommentRepo commentRepo;
+    CommentRepo commentRepo;
+
+    @Autowired
+    IpAddressResolution ipAddressResolution;
 
     public CommentService()
     {}
 
     @Override
-    public Iterable<Comment> find(int movie_id, String ip_address)
+    @Cacheable(value = "comments", key = "#movieId")
+    public Iterable<Comment> getCommentsByMovieId(int movieId)
     {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Comment> criteriaQuery = criteriaBuilder.createQuery(Comment.class);
@@ -40,13 +48,9 @@ public class CommentService implements Serializable, ICommentService {
         criteriaQuery = criteriaQuery.select(allComments);
 
         Predicate joinedPredicates = criteriaBuilder.conjunction();
-        if(movie_id > 0)
+        if(movieId > 0)
         {
-            joinedPredicates = criteriaBuilder.and(joinedPredicates, criteriaBuilder.equal(allComments.get(Comment_.MOVIE_ID), movie_id));
-        }
-        if(!ip_address.isEmpty())
-        {
-           joinedPredicates = criteriaBuilder.and(joinedPredicates, criteriaBuilder.equal(allComments.get(Comment_.IP_ADDRESS), ip_address.trim()));
+            joinedPredicates = criteriaBuilder.and(joinedPredicates, criteriaBuilder.equal(allComments.get(Comment_.MOVIE_ID), movieId));
         }
 
         if(joinedPredicates.getExpressions().size() > 0)
@@ -66,53 +70,67 @@ public class CommentService implements Serializable, ICommentService {
     }
 
     @Override
+    @CachePut(value = "comments")
     public Comment save(Comment comment)
     {
         comment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
+        comment.setIpAddress(ipAddressResolution.getIpAddress());
         commentRepo.save(comment);
         return comment;
     }
 
     @Override
+    @CachePut(value = "comments")
     public  Iterable<Comment> saveAll(Iterable<Comment> entities) {
         Timestamp currentTimestamp =Timestamp.valueOf(LocalDateTime.now());
-        entities.forEach(comment -> comment.setCreatedDateUtc(currentTimestamp));
+        entities.forEach(comment ->
+                                    {
+                                        comment.setCreatedDateUtc(currentTimestamp);
+                                        comment.setIpAddress(ipAddressResolution.getIpAddress());
+                                    });
         commentRepo.saveAll(entities);
         return entities;
     }
 
     @Override
-    public Optional<Comment> findById(Long integer) {
-        Optional<Comment> comment = commentRepo.findById(integer);
-        return comment;
+    @Cacheable(value = "oneComment", key = "#id")
+    public Comment findById(Long id) {
+        Optional<Comment> comment = commentRepo.findById(id);
+        if(comment.isPresent())
+        {
+            return  comment.get();
+        }
+        return new Comment();
     }
 
     public boolean existsById(Long commentId) {
         return commentRepo.existsById(commentId);
     }
 
+    @Cacheable(value = "oneComment")
     public Iterable<Comment> findAll() {
         return commentRepo.findAll();
     }
 
-    public Iterable<Comment> findAllById(Iterable<Long> iterable) {
-        return commentRepo.findAllById(iterable);
+    public Iterable<Comment> findAllById(Iterable<Long> commentIds) {
+        return commentRepo.findAllById(commentIds);
     }
 
     public long count() {
         return commentRepo.count();
     }
 
-    public long countById(int movie_id)
+    public long countById(int movieId)
     {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
         Root<Comment> allComments = criteriaQuery.from(Comment.class);
         criteriaQuery.select(criteriaBuilder.count(allComments));
-        criteriaQuery.where(criteriaBuilder.equal(allComments.get(Comment_.MOVIE_ID), movie_id));
+        criteriaQuery.where(criteriaBuilder.equal(allComments.get(Comment_.MOVIE_ID), movieId));
         return entityManager.createQuery(criteriaQuery).getSingleResult();
     }
 
+    @CacheEvict(value = "oneComment", key = "#commentIdToDelete")
     public void deleteById(Long commentIdToDelete) {
         if(commentRepo.existsById(commentIdToDelete))
         commentRepo.deleteById(commentIdToDelete);
@@ -122,6 +140,7 @@ public class CommentService implements Serializable, ICommentService {
         commentRepo.delete(commentToDelete);
     }
 
+    @CacheEvict(value = "oneComment", key = "#a0")
     public void deleteAll(Iterable<Comment> commentsToDelete) {
         commentRepo.deleteAll(commentsToDelete);
     }

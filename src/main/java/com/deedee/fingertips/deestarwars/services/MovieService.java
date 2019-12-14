@@ -1,82 +1,50 @@
 package com.deedee.fingertips.deestarwars.services;
 
 import com.deedee.fingertips.deestarwars.config.PropsConfig;
-import com.deedee.fingertips.deestarwars.models.Film;
+import com.deedee.fingertips.deestarwars.interfaces.IHttpService;
+import com.deedee.fingertips.deestarwars.models.Movie;
 import com.deedee.fingertips.deestarwars.models.ParamEnums;
 import com.deedee.fingertips.deestarwars.models.People;
 import com.deedee.fingertips.deestarwars.models.PeopleQueryParams;
 import com.deedee.fingertips.deestarwars.interfaces.ICommentService;
-import com.deedee.fingertips.deestarwars.interfaces.IFilmService;
+import com.deedee.fingertips.deestarwars.interfaces.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FilmService implements IFilmService {
+public class MovieService implements Serializable, IMovieService {
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Autowired
-    PropsConfig propsConfig;
+    IHttpService httpService;
 
     @Autowired
     ICommentService commentService;
 
-    public FilmService()  {   }
+    @Autowired
+    PropsConfig propsConfig;
+
+    public MovieService()  {   }
 
     @Override
-    public Film getFilmById(int filmId) throws Exception
+    @Cacheable(value = "movie", key = "#movieId")
+    public Movie getMovieWithPeople(int movieId, PeopleQueryParams peopleQueryParams)
     {
-        String filmPartUrl = String.format("%s%s",propsConfig.swapiBaseUrl ,"films/");
+        String moviePartUrl = String.format("%s%s/%s",propsConfig.swapiBaseUrl ,"films", movieId);
+        Movie movie = (Movie)httpService.get(moviePartUrl, Movie.class).getBody();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.add("user-agent", propsConfig.headerValue);
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        Film film = restTemplate.exchange(filmPartUrl+filmId, HttpMethod.GET,  entity, Film.class).getBody();
-
-        //add comment count;
-        if(film != null)
-        {
-            long commentcount = commentService.countById(filmId);
-            film.setCommentCount(commentcount);
-            //System.out.println("count="+commentcount);
-        }
-
-        return film;
-    }
-
-    @Override
-    public Film getCharacterListForFilm(int filmId, PeopleQueryParams peopleQueryParams)
-    {
-        String filmPartUrl = String.format("%s%s",propsConfig.swapiBaseUrl ,"films/");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.add("user-agent", propsConfig.headerValue);
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        Film film = restTemplate.exchange(filmPartUrl+filmId, HttpMethod.GET,  entity, Film.class).getBody();
-
-        if(film != null)
+        if(movie != null)
         {
             //add comment count;
-            long commentcount = commentService.countById(filmId);
-            film.setCommentCount(commentcount);
-            //System.out.println("count="+commentcount);
+            long commentCount = commentService.countById(movieId);
+            movie.setCommentCount(commentCount);
 
             //get people details
-            List<String> peopleUrlList = film.getCharacters();
+            List<String> peopleUrlList = movie.getCharacters();
 
             if(peopleUrlList.size() > 0)
             {
@@ -101,28 +69,23 @@ public class FilmService implements IFilmService {
                                                     }
                                                     )
                                                     .collect(Collectors.toList());
-                film.setPeople(people);
+                movie.setPeople(people);
 
                 Long height = people.stream().mapToLong(item ->  Long.parseLong(item.getHeight())).sum();
 
-                film.setTotalHeightInCm(height+"cm");
-                film.setTotalHeightInFeet(cmToFeet(height));
-                film.setPeopleCount(people.size());
+                movie.setTotalHeightInCm(height+"cm");
+                movie.setTotalHeightInFeet(cmToFeet(height));
+                movie.setPeopleCount(people.size());
             }
         }
 
-        return film;
+        return movie;
     }
 
+    @Cacheable(value = "people", key = "#peopleUrl")
     private People getPeopleDetails (String peopleUrl)
     {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.add("user-agent", propsConfig.headerValue);
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        People people = restTemplate.exchange(peopleUrl, HttpMethod.GET,  entity, People.class).getBody();
-
+        People people = (People) httpService.get(peopleUrl, People.class).getBody();
         return people;
     }
 
