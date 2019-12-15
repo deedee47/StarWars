@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* com.deedee.fingertips.deestarwars.DeestarwarsApplication server
+web: java -jar target/deestarwars-0.0.1-SNAPSHOT-jar-with-dependencies.jar
