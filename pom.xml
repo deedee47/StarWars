@@ -12,6 +12,7 @@
 	<artifactId>deestarwars</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>deestarwars</name>
+	<packaging>war</packaging>
 	<description>Details of StarWars Movie at your finger tips</description>
 
 	<properties>

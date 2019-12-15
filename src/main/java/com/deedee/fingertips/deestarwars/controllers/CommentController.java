@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.assertj.core.util.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/comment")
