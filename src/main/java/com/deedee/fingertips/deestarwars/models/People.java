@@ -13,6 +13,22 @@ public class People implements Serializable
     private String created;
     private String edited;
 
+    public String getHair_color() {
+        return hair_color;
+    }
+
+    public void setHair_color(String hair_color) {
+        this.hair_color = hair_color;
+    }
+
+    public String getSkin_color() {
+        return skin_color;
+    }
+
+    public void setSkin_color(String skin_color) {
+        this.skin_color = skin_color;
+    }
+
     public String getGender() {
         return gender;
     }
@@ -21,13 +37,13 @@ public class People implements Serializable
         this.gender = gender;
     }
 
-    public String getHair_color() {
-        return hair_color;
-    }
-
-    public void setHair_color(String hair_color) {
-        this.hair_color = hair_color;
-    }
+//    public String getHairColor() {
+//        return hair_color;
+//    }
+//
+//    public void setHairColor(String hairColor) {
+//        this.hair_color = hairColor;
+//    }
 
     public String getHeight() {
         return height;
@@ -53,13 +69,14 @@ public class People implements Serializable
         this.name = name;
     }
 
-    public String getSkin_color() {
-        return skin_color;
-    }
-
-    public void setSkin_color(String skin_color) {
-        this.skin_color = skin_color;
-    }
+    //not working
+//    public String getSkinColor() {
+//        return skin_color;
+//    }
+//
+//    public void setSkinColor(String skin_color) {
+//        this.skin_color = skin_color;
+//    }
 
     public String getCreated() {
         return created;

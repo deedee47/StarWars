@@ -33,10 +33,9 @@ public class Comment implements Serializable
     public Comment() {
     }
 
-    public Comment(int movie_id, String description, String ip_address) {
-        this.movieId = movie_id;
+    public Comment(int movieId, String description) {
+        this.movieId = movieId;
         this.description = description;
-        this.ipAddress = ip_address;
     }
 
     public int getMovieId() {

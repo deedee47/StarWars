@@ -1,22 +1,21 @@
-package com.deedee.fingertips.deestarwars.repositories;
+package com.deedee.fingertips.deestarwars.interfaces;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public interface ICommentService {
-    Iterable<Comment> find(int movie_id, String ip_address);
+    Iterable<Comment> getCommentsByMovieId(int movieId);
     Comment save(Comment comment);
     Iterable<Comment> saveAll(Iterable<Comment> entities);
-    Optional<Comment> findById(Long integer) ;
+    Comment findById(Long id) ;
     boolean existsById(Long commentId);
     Iterable<Comment> findAll();
     Iterable<Comment> findAllById(Iterable<Long> iterable);
     long count();
-    long countById(int movie_id);
+    long countById(int movieId);
     void deleteById(Long commentIdToDelete);
     void delete(Comment commentToDelete);
     void deleteAll(Iterable<Comment> commentsToDelete);

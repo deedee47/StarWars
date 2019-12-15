@@ -44,7 +44,7 @@ public class CommentControllerTest {
     @Test
     public void testSaveController() throws Exception
     {
-        Comment firstComment = new Comment(4, "Loved it", "172.333.333.333");
+        Comment firstComment = new Comment(4, "Loved it");
         firstComment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
 
         String url = "/api/v1/comment/add";
@@ -54,7 +54,7 @@ public class CommentControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.ipAddress").value(firstComment.getIpAddress()))
+                .andExpect(jsonPath("$.description").value(firstComment.getDescription()))
                 .andReturn();
         Assert.assertNotNull(mvcResult.getResponse().getContentAsString());
     }
@@ -76,8 +76,7 @@ public class CommentControllerTest {
         String url = "/api/v1/comment/find";
         ResultActions mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get(url)
-                    .param("movieId", "2")
-                    .param("ipAddress", "172.22.22.22"))
+                    .param("movieId", "2"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
         Assert.assertNotNull(mvcResult.andReturn().getResponse().getContentAsString());
@@ -92,24 +91,5 @@ public class CommentControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
         Assert.assertTrue(mvcResult.andReturn().getResponse().getContentAsString().equals("[]"));
-    }
-
-    @Test
-    public void testFindOneParameterController() throws Exception
-    {
-        String url = "/api/v1/comment/find";
-        ResultActions mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders.get(url)
-                        .param("movieId", "2"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(print());
-        Assert.assertNotNull(mvcResult.andReturn().getResponse().getContentAsString());
-
-        ResultActions mvcResult2 = mockMvc
-                .perform(MockMvcRequestBuilders.get(url)
-                        .param("ipAddress", "172.22.22.22"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(print());
-        Assert.assertNotNull(mvcResult2.andReturn().getResponse().getContentAsString());
     }
 }

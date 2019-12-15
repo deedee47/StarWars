@@ -20,18 +20,15 @@ public class SuitePrep {
     @Autowired
     public CommentService commentService;
     public Long testCommentId = 0L;
-    public String testIp = "";
     public int movieId = 0;
 
     @Before
     public void setUp() throws Exception
     {
-        testIp = "172.22.22.22";
         movieId = 1;
-        Comment testComment = new Comment(movieId , "Great Movie", testIp);
+        Comment testComment = new Comment(movieId , "Great Movie");
         assertNull(testComment.getId());
 
-       // testComment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
         commentService.save(testComment);
         testCommentId = testComment.getId();
         assertNotNull(testCommentId);
@@ -41,7 +38,7 @@ public class SuitePrep {
     public void tearDown()
     {
         commentService.deleteById(testCommentId);
-        Optional<Comment> comment = commentService.findById(testCommentId);
-        assertEquals(Optional.empty(),comment);
+        boolean commentAvailable = commentService.existsById(testCommentId);
+        assertFalse(commentAvailable);
     }
 }
