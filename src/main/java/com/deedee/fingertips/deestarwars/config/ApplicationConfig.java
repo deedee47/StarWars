@@ -41,7 +41,7 @@ public class ApplicationConfig implements Serializable {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws HibernateException {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setDatabase(Database.SQL_SERVER);
+       // vendorAdapter.setDatabase(Database.SQL_SERVER);
         vendorAdapter.setGenerateDdl(true);
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
