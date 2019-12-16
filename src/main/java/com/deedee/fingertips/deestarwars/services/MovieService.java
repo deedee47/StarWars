@@ -31,7 +31,7 @@ public class MovieService implements Serializable, IMovieService {
     public MovieService()  {   }
 
     @Override
-    @Cacheable(value = "movie", key = "{#movieId , #peopleQueryParams}")
+    @Cacheable(value = "movie", key = "#movieId + '_' + #peopleQueryParams")
     public Movie getMovieWithPeople(int movieId, PeopleQueryParams peopleQueryParams)
     {
         String moviePartUrl = String.format("%s%s/%s",propsConfig.swapiBaseUrl ,"films", movieId);
