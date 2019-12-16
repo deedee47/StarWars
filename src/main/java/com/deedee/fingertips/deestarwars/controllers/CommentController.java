@@ -2,6 +2,8 @@ package com.deedee.fingertips.deestarwars.controllers;
 
 import com.deedee.fingertips.deestarwars.models.Comment;
 import com.deedee.fingertips.deestarwars.interfaces.ICommentService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,10 @@ public class CommentController {
     @Autowired
     public ICommentService commentService;
 
+    @ApiOperation(value = "Add a new comment for a movie")
     @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Comment saveComment(@RequestBody Comment comment)
+    public Comment saveComment(@ApiParam (value = "Comment Model") @RequestBody Comment comment)
     {
         Comment result = new Comment();
         if (comment != null)
@@ -28,6 +31,7 @@ public class CommentController {
         return result;
     }
 
+    @ApiOperation(value = "Find Comments for a movie using Movie ID")
     @RequestMapping(method = RequestMethod.GET, value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Comment> getCommentsByMovieId(@RequestParam(value="movieId", defaultValue="0", required = false) String movieId)//, ServerHttpRequest request)
@@ -37,6 +41,7 @@ public class CommentController {
         return (List<Comment>) IterableUtil.toCollection(result);
     }
 
+    @ApiOperation(value = "Get a Comment for a movie using Comment ID")
     @RequestMapping(method = RequestMethod.GET, value = "/get/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Comment getComment(@PathVariable("commentId") Long commentId) //throws Exception

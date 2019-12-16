@@ -1,12 +1,8 @@
 package com.deedee.fingertips.deestarwars.models;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
-import org.springframework.data.jpa.repository.Temporal;
-
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -16,6 +12,7 @@ public class Comment implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @Column(name = "movie_id")
@@ -24,9 +21,11 @@ public class Comment implements Serializable
     @Column(name = "description", length = 500)
     private String  description;
 
+    @ApiModelProperty(hidden = true)
     @Column(name = "created_date_utc")
     private Timestamp createdDateUtc;
 
+    @ApiModelProperty(hidden = true)
     @Column(name = "ip_address")
     private  String ipAddress;
 
