@@ -10,9 +10,13 @@ public class Movie {
     private String openingCrawl;
     private String created;
     private String edited;
+    @JsonProperty("comment_count")
     private Long commentCount;
+    @JsonProperty("total_height_in_cm")
     private String totalHeightInCm;
+    @JsonProperty("total_height_in_feet")
     private String totalHeightInFeet;
+    @JsonProperty("people_count")
     private int peopleCount;
     private List<People> people;
     private List<String> characters;
