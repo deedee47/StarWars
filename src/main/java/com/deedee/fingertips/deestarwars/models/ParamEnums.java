@@ -2,15 +2,15 @@ package com.deedee.fingertips.deestarwars.models;
 
 public class ParamEnums {
 
-    public enum GenderFilter {
+    public enum Filter {
         MALE, FEMALE
     }
 
-    public enum SortParams {
+    public enum Sort {
         GENDER, HEIGHT, NAME
     }
 
-    public enum  SortType
+    public enum Order
     {
         ASC, DESC
     }

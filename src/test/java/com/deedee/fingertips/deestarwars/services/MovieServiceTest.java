@@ -2,7 +2,6 @@ package com.deedee.fingertips.deestarwars.services;
 
 import com.deedee.fingertips.deestarwars.models.Movie;
 import com.deedee.fingertips.deestarwars.models.ParamEnums;
-import com.deedee.fingertips.deestarwars.models.PeopleQueryParams;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,7 @@ public class MovieServiceTest {
     @Test
     public void findMovieTest() throws Exception
     {
-        PeopleQueryParams peopleQueryParams = new PeopleQueryParams();
-        peopleQueryParams.genderFilter = ParamEnums.GenderFilter.MALE;
-        peopleQueryParams.sortParameters = ParamEnums.SortParams.NAME;
-        peopleQueryParams.sortType = ParamEnums.SortType.ASC;
-        Movie testMovie = movieService.getMovieWithPeople(2, peopleQueryParams);
+        Movie testMovie = movieService.getMovieWithPeople(2, ParamEnums.Filter.MALE,  ParamEnums.Sort.NAME, ParamEnums.Order.ASC);
         assertNotNull(testMovie);
         assertEquals(testMovie.getTitle(), "The Empire Strikes Back");
     }
