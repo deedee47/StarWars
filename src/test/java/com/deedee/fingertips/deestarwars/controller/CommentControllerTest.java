@@ -47,7 +47,7 @@ public class CommentControllerTest {
         Comment firstComment = new Comment(4, "Loved it");
         firstComment.setCreatedDateUtc(Timestamp.valueOf(LocalDateTime.now()));
 
-        String url = "/api/v1/comment/add";
+        String url = "/comments";
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.post(url)
                     .content(new ObjectMapper().writeValueAsString(firstComment))
@@ -62,7 +62,7 @@ public class CommentControllerTest {
     @Test
     public void testGetController() throws Exception
     {
-        String url = "/api/v1/comment/get/2";
+        String url = "/comments/2";
         MvcResult mvcResult = mockMvc
                                      .perform(MockMvcRequestBuilders.get(url))
                                      .andExpect(MockMvcResultMatchers.status().isOk())
@@ -73,7 +73,7 @@ public class CommentControllerTest {
     @Test
     public void testFindController() throws Exception
     {
-        String url = "/api/v1/comment/find";
+        String url = "/comments";
         ResultActions mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get(url)
                     .param("movieId", "2"))
@@ -85,7 +85,7 @@ public class CommentControllerTest {
     @Test
     public void testFindNoParameterController() throws Exception
     {
-        String url = "/api/v1/comment/find";
+        String url = "/comments";
         ResultActions mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get(url))
                 .andExpect(MockMvcResultMatchers.status().isOk())

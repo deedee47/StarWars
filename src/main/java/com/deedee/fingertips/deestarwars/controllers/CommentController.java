@@ -12,14 +12,14 @@ import org.assertj.core.util.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/comment")
+@RequestMapping
 public class CommentController {
 
     @Autowired
     public ICommentService commentService;
 
     @ApiOperation(value = "Add a new comment for a movie")
-    @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/comments", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Comment saveComment(@ApiParam (value = "Comment Model") @RequestBody Comment comment)
     {
@@ -31,20 +31,19 @@ public class CommentController {
         return result;
     }
 
-    @ApiOperation(value = "Find Comments for a movie using Movie ID")
-    @RequestMapping(method = RequestMethod.GET, value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get Comments for a Movie using Movie ID")
+    @RequestMapping(method = RequestMethod.GET, value = "/comments", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Comment> getCommentsByMovieId(@RequestParam(value="movieId", defaultValue="0", required = false) String movieId)//, ServerHttpRequest request)
+    public List<Comment> getCommentsByMovieId(@RequestParam (value="movieId", defaultValue="0") int movieId)
     {
-        int movieIdInt = Integer.parseInt(movieId);
-        Iterable<Comment> result = commentService.getCommentsByMovieId(movieIdInt);
+        Iterable<Comment> result = commentService.getCommentsByMovieId(movieId);
         return (List<Comment>) IterableUtil.toCollection(result);
     }
 
-    @ApiOperation(value = "Get a Comment for a movie using Comment ID")
-    @RequestMapping(method = RequestMethod.GET, value = "/get/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get a Comment using Comment ID")
+    @RequestMapping(method = RequestMethod.GET, value = "/comments/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Comment getComment(@PathVariable("commentId") Long commentId) //throws Exception
+    public Comment getCommentByCommentId(@PathVariable("commentId") Long commentId)
     {
         Comment result = commentService.findById(commentId);
         return result;
